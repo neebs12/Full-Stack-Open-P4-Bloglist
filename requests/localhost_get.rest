@@ -1,0 +1,13 @@
+### Typical get all
+GET http://localhost:3003/api/blogs
+
+### Typical add new blog post
+POST http://localhost:3003/api/blogs
+Content-Type: application/json;charset=UTF-8
+
+{
+  "title": "from VS Code REST",
+  "author": "vsc",
+  "url": "https://facebook.com",
+  "likes": 5
+}
