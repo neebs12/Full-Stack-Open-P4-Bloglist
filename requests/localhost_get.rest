@@ -6,8 +6,10 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json;charset=UTF-8
 
 {
-  "title": "from VS Code REST2",
-  "author": "vsc2",
-  "url": "https://facebook2.com",
+  "title": "from VS Code REST3",
+  "author": "vsc3",
+  "url": "https://facebook3.com",
   "likes": 5
 }
+
+### Delete 
