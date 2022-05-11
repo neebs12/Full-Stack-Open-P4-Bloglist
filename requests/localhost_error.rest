@@ -1,0 +1,5 @@
+### incorrect path
+GET http://localhost:3003/another/path
+
+### explicit error
+GET http://localhost:3003/api/blogs/error
