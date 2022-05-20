@@ -23,7 +23,15 @@ let initialBlogs = [
   },    
 ] 
 
+const blogsInDb = async () => {
+  // .toJSON is appropriate as this executes the 
+  // -- special 'toJSON' functionality in models/blog.js
+  let blogObjects = await Blog.find({})
+  let stringified = blogObjects.map(blog => blog.toJSON())
+  return stringified
+}
+
 // then we export these in via commonJS syntax
 module.exports = {
-  initialBlogs
+  initialBlogs, blogsInDb
 }

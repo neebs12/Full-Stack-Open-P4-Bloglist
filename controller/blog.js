@@ -22,6 +22,10 @@ blogRouter.post('/', async (request, response) => {
     likes: request.body.likes || 0
   }
 
+  if (!newBlog.title || !newBlog.url) {
+    return response.status(400).end()
+  }
+
   let myBlog = new Blog(newBlog)
   let result = await myBlog.save()
   response.status(201).json(result)

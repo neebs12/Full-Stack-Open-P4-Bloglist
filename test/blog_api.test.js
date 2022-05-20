@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
 const Blog = require('../models/blog')
-const { initialBlogs } = require('./blog_api_test_helper')
+const helper = require('./blog_api_test_helper')
 
 const api = supertest(app)
 
@@ -10,7 +10,7 @@ const api = supertest(app)
 beforeEach(async () => {
   // delete all
   await Blog.deleteMany({})
-  let savePromiseAry = initialBlogs.map(blog => {
+  let savePromiseAry = helper.initialBlogs.map(blog => {
     let blogObject = new Blog(blog)
     // .save() has a return value that is a promise itself
     return blogObject.save() 
@@ -20,6 +20,7 @@ beforeEach(async () => {
   // -- completed
   await Promise.allSettled(savePromiseAry)
 })
+
 
 
 test('blogs are returned as json', async () => {
@@ -33,14 +34,15 @@ test('blogs are returned as json', async () => {
 
 test('correct number of blogs returned when requested', async () => {
   // notice lack of `.expect()` here due to 'get' being tested already!
-  let response = await api.get('/api/blogs')
-  expect(response.body.length).toBe(initialBlogs.length)
+  // let response = await api.get('/api/blogs')
+  let blogs = await helper.blogsInDb()
+  expect(blogs.length).toBe(helper.initialBlogs.length)
 })
 
 test('`id` is present on returned object', async () => {
   // this is testing the `toJSON` method in models/blog
-  let response = await api.get('/api/blogs')
-  expect(response.body[0].id).toBeDefined()
+  let blogs = await helper.blogsInDb()
+  expect(blogs[0].id).toBeDefined()
 })
 
 test('successfully saves a blog to the server', async () => {
@@ -55,8 +57,8 @@ test('successfully saves a blog to the server', async () => {
   // confirm if saved in database
   expect(singleBlogResponse.title).toBe(title)
   // confirm if database has added a new item
-  let allBlogResponse = await api.get('/api/blogs')
-  expect(allBlogResponse.body.length).toBe(initialBlogs.length + 1)
+  let blogs = await helper.blogsInDb()
+  expect(blogs.length).toBe(helper.initialBlogs.length + 1)
 }) 
 
 test('adds a default 0 likes if no likes are defined', async () => {
@@ -79,11 +81,39 @@ test('returns a 201 status code with successful POST', async () => {
     "author": "temp mctemp-face",
     "url": "https://temporary-world.com"
   }
-  let response = await api
+  await api
     .post('/api/blogs')
     .set('Content-Type', 'application/json')
     .send(tmpBlog)
     .expect(201)  
+})
+
+// describe ('fails with 400 status code if a component is missing', () => {
+
+// }) 
+
+test('returns a "400" status code with missing title/url', async () => {
+  let missingTitle = {
+    // "title": "temporary blog!",
+    "author": "temp mctemp-face",
+    "url": "https://temporary-world.com"
+  }
+  let missingUrl = {
+    "title": "temporary blog!",
+    "author": "temp mctemp-face",
+    // "url": "https://temporary-world.com"
+  }
+  await api
+    .post('/api/blogs')
+    .set('Content-Type', 'application/json')
+    .send(missingTitle)
+    .expect(400)  
+
+  await api
+    .post('/api/blogs')
+    .set('Content-Type', 'application/json')
+    .send(missingUrl)
+    .expect(400)      
 })
 
 afterAll(() => {
