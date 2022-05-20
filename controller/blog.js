@@ -18,9 +18,14 @@ blogRouter.get('/error', (request, response, next) => {
 
 // for POST
 blogRouter.post('/', (request, response, next) => {
-  let newBlog = new Blog(request.body)
-
-  newBlog.save()
+  // default to zero
+  let newBlog = {
+    ...request.body,
+    likes: request.body.likes || 0
+  }
+  
+  let myBlog = new Blog(newBlog)
+  myBlog.save()
     .then(result => {
       response.status(201).json(result)
     })

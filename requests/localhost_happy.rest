@@ -11,3 +11,13 @@ Content-Type: application/json;charset=UTF-8
   "url": "https://facebook4.com",
   "likes": 4
 }
+
+### Add new blog post without likes
+POST http://localhost:3003/api/blogs
+Content-Type: application/json;charset=UTF-8
+
+{
+  "title": "missing likes!",
+  "author": "no likes!",
+  "url": "https://no-like.com"
+}

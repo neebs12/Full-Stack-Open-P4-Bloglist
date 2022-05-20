@@ -43,8 +43,35 @@ test('`id` is present on returned object', async () => {
   expect(response.body[0].id).toBeDefined()
 })
 
+test('successfully saves a blog to the server', async () => {
+  let title = "temporary blog!" 
+  let tmpBlog = new Blog({
+    "title": title,
+    "author": "temp mctemp-face",
+    "url": "https://temporary-world.com",
+    "likes": 0
+  })
+  let singleBlogResponse = await tmpBlog.save()
+  // confirm if saved in database
+  expect(singleBlogResponse.title).toBe(title)
+  // confirm if database has added a new item
+  let allBlogResponse = await api.get('/api/blogs')
+  expect(allBlogResponse.body.length).toBe(initialBlogs.length + 1)
+}) 
 
-
+test('adds a default 0 likes if no likes are defined', async () => {
+  let tmpBlog = {
+    "title": "temporary blog!",
+    "author": "temp mctemp-face",
+    "url": "https://temporary-world.com"
+  }
+  let response = await api
+    .post('/api/blogs')
+    .set('Content-Type', 'application/json')
+    .send(tmpBlog)
+  
+  expect(response.body.likes).toBe(0)
+})
 
 afterAll(() => {
   mongoose.connection.close()
