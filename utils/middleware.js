@@ -14,6 +14,7 @@ const uknownEndpoint = (request, response) => {
 }
 // we want a user-defined error handler
 const errorHandler = (error, request, response, next) => {
+  logger.info('Hello there!')
   logger.error(error.message) // message meant for the dev
 
   if (error.name === 'CastError') {

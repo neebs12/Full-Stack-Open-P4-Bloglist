@@ -73,6 +73,19 @@ test('adds a default 0 likes if no likes are defined', async () => {
   expect(response.body.likes).toBe(0)
 })
 
+test('returns a 201 status code with successful POST', async () => {
+  let tmpBlog = {
+    "title": "temporary blog!",
+    "author": "temp mctemp-face",
+    "url": "https://temporary-world.com"
+  }
+  let response = await api
+    .post('/api/blogs')
+    .set('Content-Type', 'application/json')
+    .send(tmpBlog)
+    .expect(201)  
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
