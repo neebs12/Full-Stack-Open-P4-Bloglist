@@ -87,13 +87,6 @@ describe('when adding a blog to the server:', () => {
   })  
 })
 
-
-
-
-
-
-
-
 describe ('fails with 400 status code if a blog is: ', () => {
   test('missing a title', async () => {
     let missingTitle = {
