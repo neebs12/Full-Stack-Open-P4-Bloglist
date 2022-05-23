@@ -123,8 +123,24 @@ describe ('when deleting a single blog post:', () => {
       .delete(`/api/blogs/${id}`)
       .expect(204)
   })
-  test('the response has a 204 status code even with non-existent id', () => {})
-  test('no blogs are returned (RESTful)', () => {})
+  test('the response has a 204 status code even with non-existent id', async () => {
+    let nonExId = await helper.getNonExistentId()
+    // proof of consistent 204
+    await api
+      .delete(`/api/blogs/${nonExId}`)
+      .expect(204)
+    
+    // proof of non-existent deletion (no effect)
+    let blogs = await helper.blogsInDb()
+    expect(blogs.length).toBe(helper.initialBlogs.length)
+  })
+  test('no blogs are returned (RESTful)', async () => {
+    let blogs = await helper.blogsInDb()
+    let id = blogs[0].id // get id of first blog   
+    let response = await api.delete(`/api/blogs/${id}`)
+    // deep obj equality
+    expect(response.body).toEqual({})
+  })
   test('that blog post is successfully deleted on the database', () => {})
 }) 
 

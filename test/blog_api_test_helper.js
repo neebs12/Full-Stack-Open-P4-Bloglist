@@ -52,5 +52,5 @@ const getNonExistentId = async () => {
 
 // then we export these in via commonJS syntax
 module.exports = {
-  initialBlogs, blogsInDb
+  initialBlogs, blogsInDb, getNonExistentId
 }
