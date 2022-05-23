@@ -141,7 +141,15 @@ describe ('when deleting a single blog post:', () => {
     // deep obj equality
     expect(response.body).toEqual({})
   })
-  test('that blog post is successfully deleted on the database', () => {})
+  test('that blog post is successfully deleted on the database', async () => {
+    let blogs = await helper.blogsInDb()
+    let id = blogs[0].id
+    await api.delete(`/api/blogs/${id}`)
+    // re-request
+    blogs = await helper.blogsInDb()
+    // then check for the length of new blogs
+    expect(blogs.length).toBe(helper.initialBlogs.length - 1) 
+  })
 }) 
 
 afterAll(() => {
