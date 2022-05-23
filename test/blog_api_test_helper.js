@@ -27,8 +27,27 @@ const blogsInDb = async () => {
   // .toJSON is appropriate as this executes the 
   // -- special 'toJSON' functionality in models/blog.js
   let blogObjects = await Blog.find({})
-  let stringified = blogObjects.map(blog => blog.toJSON())
-  return stringified
+  let proccessed = blogObjects.map(blog => blog.toJSON())
+  return proccessed
+}
+
+/*not exported, yet*/
+const getNonExistentId = async () => {
+  // function adds extracts a non-existent id by
+  // -- saving and deleting an item in the database 
+  // -- but extracting the datadase-created id upon 
+  // -- creation/deletion
+  let tmp = {
+    title: "deleteme!",
+    author: "deleteme!",
+    url: "https://deleteme.com",
+    likes: 2
+  }
+  let blog = new Blog(tmp)
+  blog.save()
+  let id = blog._id.toString()
+  blog.remove()
+  return id
 }
 
 // then we export these in via commonJS syntax

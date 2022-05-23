@@ -115,6 +115,19 @@ describe ('fails with 400 status code if a blog is: ', () => {
   })    
 }) 
 
+describe ('when deleting a single blog post:', () => {
+  test('the response has a 204 status code', async () => {
+    let blogs = await helper.blogsInDb()
+    let id = blogs[0].id // get id of first blog
+    await api
+      .delete(`/api/blogs/${id}`)
+      .expect(204)
+  })
+  test('the response has a 204 status code even with non-existent id', () => {})
+  test('no blogs are returned (RESTful)', () => {})
+  test('that blog post is successfully deleted on the database', () => {})
+}) 
+
 afterAll(() => {
   mongoose.connection.close()
 })
