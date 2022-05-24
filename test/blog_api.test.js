@@ -87,6 +87,37 @@ describe('when adding a blog to the server:', () => {
   })  
 })
 
+describe('when updating a blog post', () => {
+  test('the blog post is updated (likes updates)', async () => {
+    // get a blog post first
+    let blogs = await helper.blogsInDb()
+    let firstId = blogs[0].id
+    let likes = 100
+    let blog = {...blogs[0], likes}
+    let result = await api
+      .put(`/api/blogs/${firstId}`)
+      .set('Content-Type', 'application/json')
+      .send(blog)
+      .expect(200)
+    
+    expect(result.body.likes).toBe(likes)
+  })
+
+  test('returns a 200 status code at successful update', async () => {
+    let firstId = (await helper.blogsInDb())[0].id
+    await api
+      .put(`/api/blogs/${firstId}`)
+      .set('Content-Type', 'application/json')
+      .send({})
+      .expect(200)
+  })
+
+  test('returns a 404 at unfound update', async () => {
+
+  })
+  
+})
+
 describe ('fails with 400 status code if a blog is: ', () => {
   test('missing a title', async () => {
     let missingTitle = {
