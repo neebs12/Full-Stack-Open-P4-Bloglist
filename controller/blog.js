@@ -39,13 +39,14 @@ blogRouter.delete('/:id', async (request, response) => {
 })
 
 // for PUT
-blogRouter.put('/:id', async (request, response) => {
+blogRouter.put('/:id', async (request, response, next) => {
   const id = request.params.id
+  // find by id first - then 404 if not found
+  const blog = await Blog.findById(id)
+  if (!blog) return response.status(404).end() // YES
+
   const body = request.body
-  const blog = {...body}
-
   let newBlog = await Blog.findByIdAndUpdate(id, body, {new: true})
-
   response.status(200).json(newBlog)
 })
 

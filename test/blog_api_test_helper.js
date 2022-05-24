@@ -37,16 +37,18 @@ const getNonExistentId = async () => {
   // -- saving and deleting an item in the database 
   // -- but extracting the datadase-created id upon 
   // -- creation/deletion
-  let tmp = {
+  // code below is not working, will fail tests
+  // -- likely due to asyncronous nature of operations
+  // return '123'
+  let blog = new Blog ({
     title: "deleteme!",
     author: "deleteme!",
     url: "https://deleteme.com",
     likes: 2
-  }
-  let blog = new Blog(tmp)
-  blog.save()
+  })
+  await blog.save() // FUDGE BRO YOU FORGOT THE AWAIT HERE
+  await blog.remove()
   let id = blog._id.toString()
-  blog.remove()
   return id
 }
 

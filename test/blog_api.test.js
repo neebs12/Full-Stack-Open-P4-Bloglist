@@ -113,7 +113,13 @@ describe('when updating a blog post', () => {
   })
 
   test('returns a 404 at unfound update', async () => {
-
+    let nonExistentId = await helper.getNonExistentId()
+    debugger
+    await api
+      .put(`/api/blogs/${nonExistentId}`)
+      .set('Content-Type', 'application/json')
+      .send({})
+      .expect(404)    
   })
   
 })

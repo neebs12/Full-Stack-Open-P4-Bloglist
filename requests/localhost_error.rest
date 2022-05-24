@@ -3,3 +3,17 @@ GET http://localhost:3003/another/path
 
 ### explicit error
 GET http://localhost:3003/api/blogs/error
+
+### explicit update missing id- for update
+PUT http://localhost:3003/api/blogs/123
+Content-Type: application/json;charset=UTF-8
+
+{
+  "title": "from VS Code REST4",
+  "author": "vsc4",
+  "url": "https://facebook4.com",
+  "likes": 4
+}
+
+### explicit update missing id - for delete
+DELETE http://localhost:3003/api/blogs/123
