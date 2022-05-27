@@ -10,7 +10,9 @@ blogRouter.get('/', async (request, response) => {
 })
 
 blogRouter.get('/error', async (request, response) => {
-  await Promise.reject(new Error('display this error'))
+  let e = Error('display this error')
+  e.name = 'CustomError'
+  throw e // <--goes straight to middleware
 })
 
 
