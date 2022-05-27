@@ -11,15 +11,6 @@ beforeEach(async () => {
   // delete all
   await Blog.deleteMany({})
   await Blog.insertMany(helper.initialBlogs)
-  // let savePromiseAry = helper.initialBlogs.map(blog => {
-  //   let blogObject = new Blog(blog)
-  //   // .save() has a return value that is a promise itself
-  //   return blogObject.save() 
-  // })
-  // // .allSettled ensures multiple requests are wrapped in a single
-  // // -- promise, and does not callback does not finish until this is
-  // // -- completed
-  // await Promise.allSettled(savePromiseAry)
 })
 
 describe('when there is initially some blogs saved:', () => {
