@@ -4,7 +4,11 @@ const blogSchema = new mongoose.Schema({
   title: String,
   author: String,
   url: String,
-  likes: Number
+  likes: Number, 
+  user: { // single user (author) for single blog post
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  }
 })
 
 // think of this as a middleware(?) that is applied on the returned object

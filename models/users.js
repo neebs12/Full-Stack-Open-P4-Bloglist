@@ -8,9 +8,12 @@ const userSchema = new mongoose.Schema({
   },
   name: String,
   passwordHash: String, // hash, not plain text
-  /*
-  blogs: [{type: ..., ref: ...}]
-  */
+  blogs: [ // multiple blogs for a single user (author)
+    {
+      type: mongoose.Schema.Types.ObjectId, 
+      ref: 'Blog'
+    }
+  ]
 })
 
 // deletion of redundant/insecure info
