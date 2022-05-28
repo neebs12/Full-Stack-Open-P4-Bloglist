@@ -1,0 +1,47 @@
+### username too short - atleast three characters
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+  "username": "ja",
+  "name": "jason ari",
+  "password": "i am jason"
+}
+
+### username non-unique
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+  "username": "jason",
+  "name": "jason ari",
+  "password": "i am jason"
+}
+
+### username missing but compulsory
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+  "name": "jason ari",
+  "password": "i am jason"
+}
+
+### password does not exists
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+  "username": "jem",
+  "name": "jem ari"
+}
+
+### password too short (atleast three characters)
+POST http://localhost:3003/api/users
+Content-Type: application/json
+
+{
+  "username": "jem",
+  "name": "jem ari",
+  "password": "sh"
+}

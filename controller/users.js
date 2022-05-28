@@ -8,7 +8,7 @@ const User = require('../models/users')
 const raiseError = (errorName, errorMessage) => {
   let e = Error(errorMessage)
   e.name = errorName
-  throw e
+  return e
 }
 
 // create route(s)
@@ -25,15 +25,18 @@ userRouter.post('/', async (request, response) => {
 
   // validate username uniqueness here
   // get all usernames, see if name already exists in all names, good
-  let users = await User.find({}, {username: 1})
-  let usernames = users.map(user => user.username)
+  // length of name and compulsory name already accounted for in shcema
+  // -- therefore will be picked up by the .save()
+  let users = await User.find({}, {username: 1}) 
+  let usernames = users.map(user => user.username) // obj -> array
   if (usernames.includes(username)) {
-    raiseError('ValidationError', 'username already exists')
+    throw raiseError('ValidationError', 'username already exists')
   }
 
-  // validate password length AND requirement here
-
-  // to raise an error, await Promise.reject(error)
+  // validate password length - three AND (compulsory requirement) here
+  if (!password || (password.length < 3)) {
+    throw raiseError('ValidationError', 'password is invalid')
+  }
 
   const saltRounds = 10 // trust FSO
   const passwordHash = await bcrypt.hash(password, saltRounds) // gens hash
