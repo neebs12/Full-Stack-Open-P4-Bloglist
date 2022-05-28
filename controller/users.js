@@ -16,7 +16,8 @@ const raiseError = (errorName, errorMessage) => {
 userRouter.get('/', async (request, response) => {
   let users = await User
     .find({})
-    .populate('blogs', {url: 1, title: 1, author: 1, id: 1})
+    .populate('blogs', {url: 1, title: 1, author: 1, id: 1}) 
+    // id works bc `toJSON` is implicitly called
   response.status(200).json(users)
 })
 
