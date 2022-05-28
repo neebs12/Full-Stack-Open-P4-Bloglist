@@ -14,7 +14,9 @@ const raiseError = (errorName, errorMessage) => {
 // create route(s)
 // for displaying all existing users
 userRouter.get('/', async (request, response) => {
-  let users = await User.find({})
+  let users = await User
+    .find({})
+    .populate('blogs', {url: 1, title: 1, author: 1, id: 1})
   response.status(200).json(users)
 })
 
