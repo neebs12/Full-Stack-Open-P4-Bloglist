@@ -6,10 +6,11 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json;charset=UTF-8
 
 {
-  "title": "from VS Code REST4",
-  "author": "vsc4",
-  "url": "https://facebook4.com",
-  "likes": 4
+  "title": "journey from 101-109",
+  "author": "hellas",
+  "url": "https://ls.com",
+  "likes": 1,
+  "user": "6291352a106b5de5ae9faf53"
 }
 
 ### Add new blog post without likes
@@ -23,4 +24,4 @@ Content-Type: application/json;charset=UTF-8
 }
 
 ### DELETE a blog post
-DELETE http://localhost:3003/api/blogs/627adf524c95ab4c7ef86890
+DELETE http://localhost:3003/api/blogs/62872d7d299818bad6925c59

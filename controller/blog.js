@@ -2,6 +2,7 @@
 require('express-async-errors')
 const blogRouter = require('express').Router();
 const Blog = require('../models/blog')
+const User = require('../models/users')
 
 // for GET ALL
 blogRouter.get('/', async (request, response) => {
@@ -24,12 +25,26 @@ blogRouter.post('/', async (request, response) => {
     likes: request.body.likes || 0
   }
 
-  if (!newBlog.title || !newBlog.url) {
+  // no title, url, or user(id) - compulsory
+  if (!newBlog.title || !newBlog.url || !newBlog.user) {
     return response.status(400).end()
   }
 
+  // with the new id, need to determine if this is a valid user
+  let referencedAuthor = await User.findById(newBlog.user)
+  if (!referencedAuthor) {
+    return Promise.reject('author not found')
+  }
+
+  // existing author/user is found, can update blogs collection
   let myBlog = new Blog(newBlog)
   let result = await myBlog.save()
+  
+  // ...and update the author with the blog's id (from the result)
+  let blogs = referencedAuthor.blogs
+  blogs.push(result.id)
+  await referencedAuthor.save()
+
   response.status(201).json(result)
 })
 

@@ -18,7 +18,6 @@ userRouter.get('/', async (request, response) => {
   response.status(200).json(users)
 })
 
-
 // for creating a new user
 userRouter.post('/', async (request, response) => {
   const {username, name, password} = request.body
