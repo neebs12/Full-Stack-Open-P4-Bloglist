@@ -4,24 +4,24 @@ GET http://localhost:3003/api/blogs
 ### Typical add new blog post
 POST http://localhost:3003/api/blogs
 Content-Type: application/json;charset=UTF-8
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImhlbGxhcyIsImlkIjoiNjI5MjllZjZkYzZjMjYzMDVkNWRkZjNjIiwiaWF0IjoxNjUzNzc2MTI1fQ.ruiMxsgOrwK6Hvp1IqCywIhf5eKt2bFL3R_C81dNVCc
 
 {
-  "title": "journey from 101-109",
+  "title": "a grand old journey from 180-181",
   "author": "hellas",
-  "url": "https://ls.com",
-  "likes": 1,
-  "user": "6291352a106b5de5ae9faf53"
+  "url": "https://ls180181.com",
+  "likes": 9
 }
 
-### Add new blog post without likes
-POST http://localhost:3003/api/blogs
-Content-Type: application/json;charset=UTF-8
+### Add new blog post without likes -- needs valid token
+# POST http://localhost:3003/api/blogs
+# Content-Type: application/json;charset=UTF-8
 
-{
-  "title": "missing likes!",
-  "author": "no likes!",
-  "url": "https://no-like.com"
-}
+# {
+#   "title": "missing likes!",
+#   "author": "no likes!",
+#   "url": "https://no-like.com"
+# }
 
 ### DELETE a blog post
 DELETE http://localhost:3003/api/blogs/62872d7d299818bad6925c59

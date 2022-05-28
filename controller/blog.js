@@ -1,8 +1,18 @@
 // contains all the relevant routes
 require('express-async-errors')
+const jwt = require('jsonwebtoken')
 const blogRouter = require('express').Router();
 const Blog = require('../models/blog')
 const User = require('../models/users')
+
+const getToken = (request) => {
+  let authHeaderVal = request.get('authorization')
+  // see if val even exists
+  if (!authHeaderVal) return null 
+
+  let [_, token] = authHeaderVal.split(' ')
+  return token
+}
 
 // for GET ALL
 blogRouter.get('/', async (request, response) => {
@@ -21,14 +31,26 @@ blogRouter.get('/error', async (request, response) => {
 
 // for POST
 blogRouter.post('/', async (request, response) => {
-  // default to likes zero
+  let token = getToken(request)
+  if (!token) return response.status(400).json({error: 'missing token'})
+  
+  // will throw an error automatically
+  let decodedToken = jwt.verify(token, process.env.SECRET)
+  // decoded to normal js object
+  let id = decodedToken.id
+  // debugger
+  let user = await User.findById(id)
+  let directId = user._id.toString()
+
+  // OK
   let newBlog = {
     ...request.body,
+    user: directId, // note ObjectId("") is needed, NOT the .toString() variation
     likes: request.body.likes || 0
   }
 
   // no title, url, or user(id) - compulsory
-  if (!newBlog.title || !newBlog.url || !newBlog.user) {
+  if (!newBlog.title || !newBlog.url) {
     return response.status(400).end()
   }
 

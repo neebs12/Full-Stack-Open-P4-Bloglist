@@ -1,0 +1,17 @@
+### login POST - incorrect username
+POST http://localhost:3003/api/login
+Content-Type: application/json
+
+{
+  "username": "empty---wrong",
+  "password": "i am admin"
+}
+
+### login POST -- incorrect password
+POST http://localhost:3003/api/login
+Content-Type: application/json
+
+{
+  "username": "empty",
+  "password": "i-----"
+}

@@ -1,0 +1,32 @@
+### login POST (getting token for empty)
+POST http://localhost:3003/api/login
+Content-Type: application/json
+
+{
+  "username": "empty",
+  "password": "i am admin"
+}
+
+### try this token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImVtcHR5IiwiaWQiOiI2MjkyNWMxM2M4NDgyOTE3MmQ0YmU3NDUiLCJpYXQiOjE2NTM3NzYxNTV9.d9MWMm6_47QfQUbScIPLGdFWP0tJkdMjd_l31flO838
+
+### login POST (getting token for hellas)
+POST http://localhost:3003/api/login
+Content-Type: application/json
+
+{
+  "username": "hellas",
+  "password": "i am hellas"
+}
+
+### try this token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImhlbGxhcyIsImlkIjoiNjI5MjllZjZkYzZjMjYzMDVkNWRkZjNjIiwiaWF0IjoxNjUzNzc2MTI1fQ.ruiMxsgOrwK6Hvp1IqCywIhf5eKt2bFL3R_C81dNVCc
+
+### login POST (getting token for jason)
+POST http://localhost:3003/api/login
+Content-Type: application/json
+
+{
+  "username": "jason",
+  "password": "i am jason"
+}
+
+### try this token:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imphc29uIiwiaWQiOiI2MjkxMzViY2Y2YmFjN2QxYWY0MjkzZjIiLCJpYXQiOjE2NTM3NzQ5NjN9.8lELC3GnQmelo0dmrfowZA2-N7v9gydo6qeD0lsrpnc
