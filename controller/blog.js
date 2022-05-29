@@ -5,15 +5,6 @@ const blogRouter = require('express').Router();
 const Blog = require('../models/blog')
 const User = require('../models/users')
 
-const getToken = (request) => {
-  let authHeaderVal = request.get('authorization')
-  // see if val even exists
-  if (!authHeaderVal) return null 
-
-  let [_, token] = authHeaderVal.split(' ')
-  return token
-}
-
 // for GET ALL
 blogRouter.get('/', async (request, response) => {
   let result = await Blog
@@ -28,23 +19,26 @@ blogRouter.get('/error', async (request, response) => {
   throw e // <--goes straight to middleware
 })
 
-
 // for POST
 blogRouter.post('/', async (request, response) => {
-  let token = getToken(request)
-  if (!token) return response.status(400).json({error: 'missing token'})
-  
+  let token = request.token
+  debugger
   // will throw an error automatically
   let decodedToken = jwt.verify(token, process.env.SECRET)
+  if (!decodedToken.id) {
+    return response.status(400).json({error: 'token missing or invalid'})
+  }
   // decoded to normal js object
   let id = decodedToken.id
   // debugger
   let user = await User.findById(id)
   let directId = user._id.toString()
 
-  // OK
+  // OK, change to title, author, and url
   let newBlog = {
-    ...request.body,
+    title: request.body.title,
+    author: request.body.author,
+    url: request.body.url,
     user: directId, // note ObjectId("") is needed, NOT the .toString() variation
     likes: request.body.likes || 0
   }
@@ -74,6 +68,13 @@ blogRouter.post('/', async (request, response) => {
 
 // for DELETE
 blogRouter.delete('/:id', async (request, response) => {
+  // let token = request.token
+  // if (!token) return response.status(400).json({error: 'missing token'})
+
+  // // token exists, we decode it, raises error automatically
+  // let decodedToken = jwt.verify(token, process.env.SECRET)
+
+
   let id = request.params.id
   await Blog.findByIdAndDelete(id)
   response.status(204).end()

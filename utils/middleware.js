@@ -30,8 +30,19 @@ const errorHandler = (error, request, response, next) => {
   next(error)
 }
 
+const getTokenFrom = (request, response, next) => {
+  let authHeaderVal = request.get('authorization')
+  // see if val even exists
+  if (!authHeaderVal) return next() 
+
+  let [_, token] = authHeaderVal.split(' ')
+  request.token = token // mutate for future use
+  next()
+}
+
 module.exports = {
   requestLogger,
   uknownEndpoint,
   errorHandler,
+  getTokenFrom,
 }

@@ -4,6 +4,29 @@ GET http://localhost:3003/another/path
 ### explicit error
 GET http://localhost:3003/api/blogs/error
 
+### POST - malformed token
+POST http://localhost:3003/api/blogs
+Content-Type: application/json;charset=UTF-8
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImhlbGxhcyIsImlkIjoiNjI5MjllZjZkYzZjMjYzMDVkNWRkZjNjIiwiaWF0IjoxNjUzNzc2MTI1fQ.ruiMxsgOrwK6Hvp1IqCywIhf5eKt2bFL3R_AAAdNVCc
+
+{
+  "title": "a new take on ruby on rails",
+  "author": "hellas",
+  "url": "https://RuboRails.io",
+  "likes": 2
+}
+
+### POST - missing token
+POST http://localhost:3003/api/blogs
+Content-Type: application/json;charset=UTF-8
+
+{
+  "title": "an old take on rails",
+  "author": "hellas",
+  "url": "https://RuboRails.io",
+  "likes": 2
+}
+
 ### explicit update missing id- for update
 PUT http://localhost:3003/api/blogs/123
 Content-Type: application/json;charset=UTF-8

@@ -7,10 +7,10 @@ Content-Type: application/json;charset=UTF-8
 Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImhlbGxhcyIsImlkIjoiNjI5MjllZjZkYzZjMjYzMDVkNWRkZjNjIiwiaWF0IjoxNjUzNzc2MTI1fQ.ruiMxsgOrwK6Hvp1IqCywIhf5eKt2bFL3R_C81dNVCc
 
 {
-  "title": "a grand old journey from 180-181",
+  "title": "a new take on ruby on rails",
   "author": "hellas",
-  "url": "https://ls180181.com",
-  "likes": 9
+  "url": "https://RuboRails.io",
+  "likes": 2
 }
 
 ### Add new blog post without likes -- needs valid token
