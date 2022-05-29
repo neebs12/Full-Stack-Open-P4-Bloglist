@@ -1,5 +1,6 @@
 // contains all the relevant routes
 require('express-async-errors')
+const { decode } = require('jsonwebtoken');
 const jwt = require('jsonwebtoken')
 const blogRouter = require('express').Router();
 const Blog = require('../models/blog')
@@ -30,7 +31,7 @@ blogRouter.post('/', async (request, response) => {
   }
   // decoded to normal js object
   let id = decodedToken.id
-  // debugger
+
   let user = await User.findById(id)
   let directId = user._id.toString()
 
@@ -68,15 +69,29 @@ blogRouter.post('/', async (request, response) => {
 
 // for DELETE
 blogRouter.delete('/:id', async (request, response) => {
-  // let token = request.token
-  // if (!token) return response.status(400).json({error: 'missing token'})
+  let token = request.token
 
-  // // token exists, we decode it, raises error automatically
-  // let decodedToken = jwt.verify(token, process.env.SECRET)
-
-
+  // token exists, we decode it, raises error automatically
+  let decodedToken = jwt.verify(token, process.env.SECRET)
+  if (!decodedToken.id) {
+    return response.status(400).json({error: 'token missing or invalid'})
+  }
+  
+  // // ok so here, we get the decodedToken's id
+  let userIdWantingToDeleteBlog = decodedToken.id.toString()
+  
+  // get the blog that wants to be deleted, to get the user id/author of the blog
   let id = request.params.id
-  await Blog.findByIdAndDelete(id)
+  let blog = await Blog.findById(id)
+  let userIdOwningTheBlog = blog.user.toString()
+  if (userIdWantingToDeleteBlog !== userIdOwningTheBlog) {
+    return response.status(401)
+      .json({error: 'do not have the authority to delete the blog'})
+  }
+  // await Blog.findByIdAndDelete(id)
+
+  // else, here correct user that wants to delete blog
+  await blog.remove()
   response.status(204).end()
 })
 

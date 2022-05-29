@@ -24,4 +24,9 @@ Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imhlb
 # }
 
 ### DELETE a blog post
-DELETE http://localhost:3003/api/blogs/62872d7d299818bad6925c59
+DELETE http://localhost:3003/api/blogs/6292f655fe17b69f50ea89fb
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImhlbGxhcyIsImlkIjoiNjI5MjllZjZkYzZjMjYzMDVkNWRkZjNjIiwiaWF0IjoxNjUzNzc2MTI1fQ.ruiMxsgOrwK6Hvp1IqCywIhf5eKt2bFL3R_C81dNVCc
+
+### DELETE a blog post -- incorrect credentials
+DELETE http://localhost:3003/api/blogs/62925a7ac84829172d4be731
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImhlbGxhcyIsImlkIjoiNjI5MjllZjZkYzZjMjYzMDVkNWRkZjNjIiwiaWF0IjoxNjUzNzc2MTI1fQ.ruiMxsgOrwK6Hvp1IqCywIhf5eKt2bFL3R_C81dNVCc
