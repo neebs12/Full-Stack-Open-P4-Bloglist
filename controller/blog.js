@@ -1,6 +1,5 @@
 // contains all the relevant routes
 require('express-async-errors')
-const { decode } = require('jsonwebtoken');
 const jwt = require('jsonwebtoken')
 const blogRouter = require('express').Router();
 const Blog = require('../models/blog')
@@ -22,17 +21,10 @@ blogRouter.get('/error', async (request, response) => {
 
 // for POST
 blogRouter.post('/', async (request, response) => {
-  let token = request.token
-  debugger
-  // will throw an error automatically
-  let decodedToken = jwt.verify(token, process.env.SECRET)
-  if (!decodedToken.id) {
+  let user = request.user
+  if (!user) {
     return response.status(400).json({error: 'token missing or invalid'})
   }
-  // decoded to normal js object
-  let id = decodedToken.id
-
-  let user = await User.findById(id)
   let directId = user._id.toString()
 
   // OK, change to title, author, and url
@@ -69,16 +61,11 @@ blogRouter.post('/', async (request, response) => {
 
 // for DELETE
 blogRouter.delete('/:id', async (request, response) => {
-  let token = request.token
-
-  // token exists, we decode it, raises error automatically
-  let decodedToken = jwt.verify(token, process.env.SECRET)
-  if (!decodedToken.id) {
+  let user = request.user
+  if (!user) {
     return response.status(400).json({error: 'token missing or invalid'})
   }
-  
-  // // ok so here, we get the decodedToken's id
-  let userIdWantingToDeleteBlog = decodedToken.id.toString()
+  let userIdWantingToDeleteBlog = user.id
   
   // get the blog that wants to be deleted, to get the user id/author of the blog
   let id = request.params.id

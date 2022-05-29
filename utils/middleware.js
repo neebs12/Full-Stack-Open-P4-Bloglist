@@ -1,4 +1,6 @@
+const jwt = require('jsonwebtoken')
 const logger = require('./logger')
+const User = require('../models/users')
 
 // we want a request body logger
 const requestLogger = (request, response, next) => {
@@ -40,9 +42,30 @@ const getTokenFrom = (request, response, next) => {
   next()
 }
 
+const userExtractor = async (request, response, next) => {
+  // extracts the user to request.user
+  let authHeaderVal = request.get('authorization')
+  // see if val even exists
+  if (!authHeaderVal) return next() 
+  let [_, token] = authHeaderVal.split(' ')
+
+  // decode the token given .env.SECRET
+  let decodedToken = jwt.verify(token, process.env.SECRET)
+  // here, a token exists, but can be invalid when decoded
+  // -- thus, prematurely return with request obj unmutated
+  if (!decodedToken.id) return next()
+
+  // else, get the relevant ids
+  let id = decodedToken.id
+  let user = await User.findById(id)
+  request.user = user
+  next()
+}
+
 module.exports = {
   requestLogger,
   uknownEndpoint,
   errorHandler,
-  getTokenFrom,
+  // getTokenFrom,
+  userExtractor,
 }
