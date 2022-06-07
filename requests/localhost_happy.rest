@@ -1,15 +1,19 @@
 ### Typical get all
 GET http://localhost:3003/api/blogs
 
+### Typical get some (based on Authorization token)
+GET http://localhost:3003/api/blogs
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImhlbGxhcyIsImlkIjoiNjI5MjllZjZkYzZjMjYzMDVkNWRkZjNjIiwiaWF0IjoxNjUzNzc2MTI1fQ.ruiMxsgOrwK6Hvp1IqCywIhf5eKt2bFL3R_C81dNVCc
+
 ### Typical add new blog post
 POST http://localhost:3003/api/blogs
 Content-Type: application/json;charset=UTF-8
 Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImhlbGxhcyIsImlkIjoiNjI5MjllZjZkYzZjMjYzMDVkNWRkZjNjIiwiaWF0IjoxNjUzNzc2MTI1fQ.ruiMxsgOrwK6Hvp1IqCywIhf5eKt2bFL3R_C81dNVCc
 
 {
-  "title": "a new take on ruby on rails",
-  "author": "hellas",
-  "url": "https://RuboRails.io",
+  "title": "testing this token!",
+  "author": "james smith",
+  "url": "smith.io",
   "likes": 2
 }
 
